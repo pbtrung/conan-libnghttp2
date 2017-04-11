@@ -1,2 +1,2 @@
-# conan-libnghttp2
+# conan-libnghttp2 [![Build Status](https://travis-ci.org/pbtrung/conan-libnghttp2.svg?branch=master)](https://travis-ci.org/pbtrung/conan-libnghttp2)
 [Conan](https://conan.io) package recipe for [libnghttp2](https://nghttp2.org)

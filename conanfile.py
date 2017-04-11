@@ -1,4 +1,4 @@
-from conans import ConanFile, CMake, tools
+from conans import ConanFile, CMake, tools, ConfigureEnvironment
 from conans.tools import download, unzip
 import os
 
@@ -23,6 +23,19 @@ class Nghttp2Conan(ConanFile):
 
     def build(self):
         cmake = CMake(self.settings)
+        if self.settings.os == "Linux" or self.settings.os == "Macos":
+            env = ConfigureEnvironment(self.deps_cpp_info, self.settings)
+            if self.settings.arch == "x86":
+                env_line = env.command_line_env.replace('-m64', '')
+                env_line = env_line.replace('-m32', '')
+                env_line = env_line.replace('CFLAGS="', 'CFLAGS="-m32 ')
+            elif self.settings.arch == "x86_64":
+                env_line = env.command_line_env.replace('-m32', '')
+                env_line = env_line.replace('-m64', '')
+                env_line = env_line.replace('CFLAGS="', 'CFLAGS="-m64 ')
+
+            self.output.warn(env_line)
+
         shared = "-DBUILD_SHARED_LIBS=ON" if self.options.shared else ""
         cd_src = "cd " + self.src_dir
         self.run("%s && cmake . %s %s" % (cd_src, cmake.command_line, shared))

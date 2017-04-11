@@ -6,7 +6,7 @@ import os
 class Nghttp2Conan(ConanFile):
     name = "libnghttp2"
     version = "1.21.1"
-    src_dir = name + "-" + version
+    src_dir = "nghttp2" + "-" + version
     license = "https://raw.githubusercontent.com/nghttp2/nghttp2/master/COPYING"
     url = "https://github.com/pbtrung/conan-nghttp2"
     settings = "os", "compiler", "build_type", "arch"

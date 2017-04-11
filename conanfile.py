@@ -35,4 +35,4 @@ class Nghttp2Conan(ConanFile):
         self.copy("*.a", dst="lib", keep_path=False)
 
     def package_info(self):
-        self.cpp_info.libs = ["libnghttp2"]
+        self.cpp_info.libs = ["nghttp2"]

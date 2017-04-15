@@ -36,7 +36,7 @@ class Nghttp2Conan(ConanFile):
 
     def package(self):
         self.copy("*.h", dst="include/nghttp2", src=self.src_dir + "/lib/includes/nghttp2")
-        self.copy("*.pc", dst="lib/pkgconfig", src=self.src_dir + "/lib")
+        self.copy("*.pc", dst="lib", src=self.src_dir + "/lib")
         self.copy("*.so*", dst="lib", keep_path=False)
         self.copy("*.dll", dst="bin", keep_path=False)
         self.copy("*.lib", dst="lib", keep_path=False)

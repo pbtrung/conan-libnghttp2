@@ -1,4 +1,4 @@
-from conans import ConanFile, CMake, tools, ConfigureEnvironment
+from conans import ConanFile, CMake, tools
 from conans.tools import download, unzip
 import os
 
@@ -22,12 +22,17 @@ class Nghttp2Conan(ConanFile):
         os.unlink(zip_name)
 
     def build(self):
-        cmake = CMake(self.settings)
-        shared = "-DBUILD_SHARED_LIBS=ON" if self.options.shared else "-DBUILD_SHARED_LIBS=OFF"
-        ext_flag = "-DENABLE_EXAMPLES=0"
-        cd_src = "cd " + self.src_dir
-        self.run("%s && cmake . %s %s %s" % (cd_src, cmake.command_line, shared, ext_flag))
-        self.run("%s && cmake --build . %s" % (cd_src, cmake.build_config))
+        if self.settings.os != "Windows":
+            cd_src = "cd " + self.src_dir
+            self.run("%s && ./configure" % cd_src)
+            self.run("%s && make" % cd_src)
+        else:
+            cmake = CMake(self.settings)
+            shared = "-DBUILD_SHARED_LIBS=ON" if self.options.shared else "-DBUILD_SHARED_LIBS=OFF"
+            ext_flag = "-DENABLE_EXAMPLES=0"
+            cd_src = "cd " + self.src_dir
+            self.run("%s && cmake . %s %s %s" % (cd_src, cmake.command_line, shared, ext_flag))
+            self.run("%s && cmake --build . %s" % (cd_src, cmake.build_config))
 
     def package(self):
         self.copy("*.h", dst="include/nghttp2", src=self.src_dir + "/lib/includes/nghttp2")

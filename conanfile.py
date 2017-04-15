@@ -24,8 +24,9 @@ class Nghttp2Conan(ConanFile):
     def build(self):
         cmake = CMake(self.settings)
         shared = "-DBUILD_SHARED_LIBS=ON" if self.options.shared else ""
+        ext_flag = "-DENABLE_EXAMPLES=0"
         cd_src = "cd " + self.src_dir
-        self.run("%s && cmake . %s %s" % (cd_src, cmake.command_line, shared))
+        self.run("%s && cmake . %s %s %s" % (cd_src, cmake.command_line, shared, ext_flag))
         self.run("%s && cmake --build . %s" % (cd_src, cmake.build_config))
 
     def package(self):

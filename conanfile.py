@@ -28,7 +28,7 @@ class Nghttp2Conan(ConanFile):
             self.run("%s && make" % cd_src)
         else:
             cmake = CMake(self.settings)
-            shared = "-DBUILD_SHARED_LIBS=ON" if self.options.shared else "-DBUILD_SHARED_LIBS=OFF"
+            shared = "-DBUILD_SHARED_LIBS=ON" if self.options.shared else "-DBUILD_SHARED_LIBS=OFF -DNGHTTP2_STATICLIB=1"
             ext_flag = "-DENABLE_EXAMPLES=0"
             cd_src = "cd " + self.src_dir
             self.run("%s && cmake . %s %s %s" % (cd_src, cmake.command_line, shared, ext_flag))

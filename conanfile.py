@@ -45,7 +45,7 @@ class Nghttp2Conan(ConanFile):
 
     def package(self):
         build_dir = os.path.join(self.src_dir, self.build_dir)
-        self.copy("*.h", dst="include/nghttp2", src=build_dir, keep_path=False)
+        self.copy("*.h", dst="include/nghttp2", src=self.src_dir + "/lib/includes/nghttp2", keep_path=False)
         if self.settings.os != "Windows":
             self.copy("*.pc", dst="lib/pkgconfig", src=build_dir, keep_path=False)
             if self.options.shared:

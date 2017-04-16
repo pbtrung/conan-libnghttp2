@@ -7,8 +7,9 @@ username = os.getenv("CONAN_USERNAME", "pbtrung")
 
 
 class TestTestConan(ConanFile):
+    version = "1.21.1"
     settings = "os", "compiler", "build_type", "arch"
-    requires = "test/0.0.0@%s/%s" % (username, channel)
+    requires = "libnghttp2/%s@%s/%s" % (version, username, channel)
     generators = "cmake"
 
     def build(self):

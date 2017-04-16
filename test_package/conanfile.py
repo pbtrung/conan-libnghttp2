@@ -7,9 +7,8 @@ username = os.getenv("CONAN_USERNAME", "pbtrung")
 
 
 class TestTestConan(ConanFile):
-    version = "1.21.1"
     settings = "os", "compiler", "build_type", "arch"
-    requires = "libnghttp2/%s@%s/%s" % (version, username, channel)
+    requires = "test/0.0.0@%s/%s" % (username, channel)
     generators = "cmake"
 
     def build(self):
@@ -20,7 +19,7 @@ class TestTestConan(ConanFile):
 
     def imports(self):
         self.copy("*.dll", "bin", "bin")
-        self.copy("*.dylib", "bin", "bin")
+        self.copy("*.dylib", "bin", "lib")
 
     def test(self):
         os.chdir("bin")

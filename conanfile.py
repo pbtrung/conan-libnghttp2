@@ -39,7 +39,7 @@ class Nghttp2Conan(ConanFile):
         self.copy("*.h", dst="include/nghttp2", src=self.src_dir + "/lib/includes/nghttp2", keep_path=False)
         if self.settings.os != "Windows":
             self.copy("*.pc", dst="lib/pkgconfig", src=self.src_dir + "/lib", keep_path=False)
-            if self.settings.shared == True:
+            if self.options.shared == True:
                 self.copy("*.so*", dst="lib", keep_path=False)
                 self.copy("*.dylib", "bin", keep_path=False)
             else:

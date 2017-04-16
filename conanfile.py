@@ -4,6 +4,7 @@ import os
 
 
 class Nghttp2Conan(ConanFile):
+    description = "HTTP/2 C Library"
     name = "libnghttp2"
     version = "1.21.1"
     src_dir = "nghttp2" + "-" + version
@@ -35,12 +36,18 @@ class Nghttp2Conan(ConanFile):
             self.run("%s && cmake --build . %s" % (cd_src, cmake.build_config))
 
     def package(self):
-        self.copy("*.h", dst="include/nghttp2", src=self.src_dir + "/lib/includes/nghttp2")
-        self.copy("*.pc", dst=".", src=self.src_dir + "/lib")
-        self.copy("*.so*", dst="lib", keep_path=False)
-        self.copy("*.dll", dst="bin", keep_path=False)
-        self.copy("*.lib", dst="lib", keep_path=False)
-        self.copy("*.a", dst="lib", keep_path=False)
+        self.copy("*.h", dst="include/nghttp2", src=self.src_dir + "/lib/includes/nghttp2", keep_path=False)
+        if self.settings.os != "Windows":
+            self.copy("*.pc", dst="lib/pkgconfig", src=self.src_dir + "/lib", keep_path=False)
+            if self.settings.shared == True:
+                self.copy("*.so*", dst="lib", keep_path=False)
+                self.copy("*.dylib", "bin", keep_path=False)
+            else:
+                self.copy("*.a", dst="lib", keep_path=False)
+        else:
+            self.copy("*.dll", dst="bin", keep_path=False)
+            self.copy("*.lib", dst="lib", keep_path=False)
+            self.copy("*.exp", dst="lib", keep_path=False)
 
     def package_info(self):
         self.cpp_info.libs = ["nghttp2"]

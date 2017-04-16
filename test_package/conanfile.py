@@ -6,9 +6,10 @@ channel = os.getenv("CONAN_CHANNEL", "stable")
 username = os.getenv("CONAN_USERNAME", "pbtrung")
 
 
-class Nghttp2TestConan(ConanFile):
+class TestTestConan(ConanFile):
+    version = "1.21.1"
     settings = "os", "compiler", "build_type", "arch"
-    requires = "libnghttp2/1.21.1@%s/%s" % (username, channel)
+    requires = "libnghttp2/%s@%s/%s" % (version, username, channel)
     generators = "cmake"
 
     def build(self):
@@ -23,4 +24,4 @@ class Nghttp2TestConan(ConanFile):
 
     def test(self):
         os.chdir("bin")
-        self.run(".%stest" % os.sep)
+        self.run(".%sexample" % os.sep)
